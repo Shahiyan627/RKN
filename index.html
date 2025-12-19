@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рулетка блокировок РКН</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="./img/logo.jpg" alt="Логотип РКН" id="logo-image">
+                </div>
+                <div class="logo-text">
+                    <h1>БАНЫ ПО ПРИКОЛУ</h1>
+                    <p class="logo-subtitle">Кускамера реестр</p>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value" id="blocked-count">0</span>
+                    <span class="stat-label">Заблокировано</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="total-services">100</span>
+                    <span class="stat-label">Всего сервисов</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="success-rate">0%</span>
+                    <span class="stat-label">Эффективность</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="roulette-section">
+                <div class="roulette-container">
+                    <div class="roulette-wheel" id="roulette-wheel">
+                        <div class="wheel-center">
+                            <div class="center-glow"></div>
+                            <div class="center-logo">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                        </div>
+                        <div class="wheel-segments" id="wheel-segments"></div>
+                        <div class="wheel-pointer">
+                            <div class="pointer-triangle"></div>
+                            <div class="pointer-glow"></div>
+                        </div>
+                    </div>
+                    <div class="roulette-controls">
+                        <button class="btn-spin" id="spin-btn">
+                            <span class="btn-text">ЗАПУСТИТЬ РУЛЕТКУ</span>
+                            <span class="btn-glow"></span>
+                            <span class="btn-icon">
+                                <i class="fas fa-play"></i>
+                            </span>
+                        </button>
+                        <div class="current-selection">
+                            <div class="selection-label">Текущий выбор:</div>
+                            <div class="selection-name" id="current-selection">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="decision-panel" id="decision-panel">
+                    <div class="panel-header">
+                        <h2>ПРИНЯТЬ РЕШЕНИЕ</h2>
+                        <div class="pulse-dot"></div>
+                    </div>
+                    <div class="decision-content">
+                        <div class="service-info">
+                            <div class="service-icon" id="service-icon">
+                                <i class="fas fa-question"></i>
+                            </div>
+                            <div class="service-details">
+                                <h3 id="service-name">Выберите сервис</h3>
+                                <div class="service-stats">
+                                    <span class="service-stat"><i class="fas fa-users"></i> <span id="service-users">—</span></span>
+                                    <span class="service-stat"><i class="fas fa-globe"></i> <span id="service-country">—</span></span>
+                                    <span class="service-stat"><i class="fas fa-bolt"></i> <span id="service-risk">—</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="decision-buttons">
+                            <button class="decision-btn btn-ban" id="ban-btn">
+                                <div class="btn-inner">
+                                    <div class="btn-icon">
+                                        <i class="fas fa-hammer"></i>
+                                    </div>
+                                    <div class="btn-title">Забанить</div>
+                                    <div class="btn-desc">Добавить в реестр</div>
+                                </div>
+                            </button>
+                            <button class="decision-btn btn-cancel" id="cancel-btn">
+                                <div class="btn-inner">
+                                    <div class="btn-icon">
+                                        <i class="fas fa-redo"></i>
+                                    </div>
+                                    <div class="btn-title">Отменить</div>
+                                    <div class="btn-desc">Крутить снова</div>
+                                </div>
+                            </button>
+                            <button class="decision-btn btn-delete" id="delete-btn">
+                                <div class="btn-inner">
+                                    <div class="btn-icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </div>
+                                    <div class="btn-title">Удалить</div>
+                                    <div class="btn-desc">Навсегда</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="registry-section">
+                <div class="registry-header">
+                    <h2><i class="fas fa-list-alt"></i> ПО ПРИКОЛУ ЗАБЛОКИРОВАННЫХ</h2>
+                    <div class="registry-controls">
+                        <button class="reg-btn" id="clear-registry">
+                            <i class="fas fa-broom"></i> Очистить
+                        </button>
+                        <button class="reg-btn" id="export-registry">
+                            <i class="fas fa-file-export"></i> Экспорт
+                        </button>
+                    </div>
+                </div>
+                <div class="registry-list" id="registry-list">
+                    <div class="empty-registry">
+                        <i class="fas fa-inbox"></i>
+                        <p>Реестр пуст. Заблокируйте по приколу первый сервис!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>САТИРИЧЕСКИЙ АРТ-ПРОЕКТ</p>
+                    <p>Все совпадения с реальными сервисами случайны</p>
+                </div>
+                <div class="footer-logo">
+                    <div class="rkn-logo">
+                        <i class="fas fa-gavel"></i>
+                        <span>РосКускамера</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="particles" id="particles"></div>
+    <div class="light-beam"></div>
+
+    <script src="services.js"></script>
+    <script src="registry.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
